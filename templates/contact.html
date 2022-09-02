@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block title %}Contact{% endblock %} 
+{% block content%}
+<h1>Contact</h1>
+<div>
+    <form method="POST">
+        <section class="name">
+            <label for="firstName">First name</label>
+            <br>
+            <input type="text" name="firstName" id="firstName" required>
+            <br>
+            <label for="lastName">Last name</label>
+            <br>
+            <input type="text" name="lastName" id="lastName" required>
+        </section>
+        <section class="email">
+            <label for="email">Email</label>
+            <br>
+            <input type="text" name="email" id="email" required>
+        </section>
+        <br>
+        <section class="name">
+            <label for="gender">Select your gender</label>
+            <br>
+            <input type="radio" name="gender" value="male">male
+            <input type="radio" name="gender" value="female">female
+            <input type="radio" name="gender" value="other">other
+        </section>
+        <br>
+        <section class="message">
+            <label for="message">Send a message</label>
+            <br>
+            <textarea id="message" name="message" rows="5" cols="25"></textarea>
+        </section>
+        <section class="submission">
+            <input type="submit" value="Submit">
+        </section>
+    </form>
+</div>
+{% endblock %}
