@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from main import db, User, Message
 from flask_sqlalchemy import SQLAlchemy
+import os.path
 
 app = Flask(__name__)
 
@@ -16,6 +17,7 @@ class User(db.Model):
     last_name = db.Column(db.String(80), index=True)
     email = db.Column(db.String(80), index=True, unique=True)
     gender = db.Column(db.String(80), index=True)
+    message = db.relationship('Message', backref='User')
 
     def __repr__(self):
         return "Name: {} {}, Email: {}".format(self.first_name, self.last_name, self.email)
@@ -40,18 +42,21 @@ def contact():
     if request.method == "POST":
 
         # get data from html form.
-        first_name = request.form.get('firstName')
-        last_name = request.form.get('lastName')
         email = request.form.get('email')
-        gender = request.form.get('gender')
-        message = request.form.get('message')
-        
-        new_user = User(first_name=first_name, last_name=last_name, email=email, gender=gender)
-        message = Message(user_email=email, message=message)
-        print("new user added")
+        message = request.form.get('message') 
+
+        # Create new user 
+        if not User.query.filter_by(email=email).first():
+            first_name = request.form.get('firstName')
+            last_name = request.form.get('lastName')
+            gender = request.form.get('gender')
+                
+            new_user = User(first_name=first_name, last_name=last_name, email=email, gender=gender)
+            db.session.add(new_user)
+
+        message = Message(message=message, user_email=email)
 
         # Add user to database
-        db.session.add(new_user)
         db.session.add(message)
         try:
             db.session.commit()
@@ -72,5 +77,7 @@ def admin():
 
 
 if __name__ == '__main__':
-    db.create_all()
+    if not os.path.exists('database.db'):
+        db.create_all()
+        
     app.run(debug=True, host="0.0.0.0", port=100)
