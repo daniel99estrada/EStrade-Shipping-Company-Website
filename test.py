@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
-from main import db, User, Message
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy, inspect
 import os.path
+from datetime import date
 
 app = Flask(__name__)
 
@@ -26,10 +26,11 @@ class User(db.Model):
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     message = db.Column(db.String(500), index=True)
+    date = db.Column(db.String(500), index=True)
     user_email = db.Column(db.Integer, db.ForeignKey('user.email'))
 
     def __repr__(self):
-        return "{} - {}".format(self.message, self.user_email)
+        return "{} - {} - {}".format(self.message, self.user_email, self.date)
 
 
 @app.route("/")
@@ -41,29 +42,36 @@ def homepage():
 def contact():
     if request.method == "POST":
 
-        # get data from html form.
+        # Check if email is already in the database
+        user_exists = False
         email = request.form.get('email')
-        message = request.form.get('message') 
 
-        # Create new user 
-        if not User.query.filter_by(email=email).first():
+        inspector = inspect(db.engine)
+        if (inspector.has_table("user")):
+            user_exists = User.query.filter_by(email=email).first()
+
+        if not user_exists:
+            # Add user to database
             first_name = request.form.get('firstName')
             last_name = request.form.get('lastName')
             gender = request.form.get('gender')
-                
+            
             new_user = User(first_name=first_name, last_name=last_name, email=email, gender=gender)
             db.session.add(new_user)
+        
+        # Add message to database
+        date_obj = date.today()
+        date_str = date_obj.strftime("%d/%m/%Y")
+        message = request.form.get('message')
 
-        message = Message(message=message, user_email=email)
-
-        # Add user to database
+        message = Message(message=message, date=date_str, user_email=email)
         db.session.add(message)
+
         try:
             db.session.commit()
         except Exception:
             db.session.rollback()
-
-            # redirect to homepage
+            
             return redirect(url_for('homepage'))
 
     return render_template('contact.html')
@@ -79,5 +87,5 @@ def admin():
 if __name__ == '__main__':
     if not os.path.exists('database.db'):
         db.create_all()
-        
+
     app.run(debug=True, host="0.0.0.0", port=100)
