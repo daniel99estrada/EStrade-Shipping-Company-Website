@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy, inspect
 import os.path
 from datetime import date
+from sendEmails import send_email
 
 app = Flask(__name__)
 
@@ -71,8 +72,10 @@ def contact():
             db.session.commit()
         except Exception:
             db.session.rollback()
-            
-            return redirect(url_for('homepage'))
+
+        send_email(email)
+
+        return redirect(url_for('homepage'))
 
     return render_template('contact.html')
 
@@ -81,7 +84,7 @@ def contact():
 def admin():
     users = User.query.all()
     messages = Message.query.all()
-    return render_template('admin.html', users=users, messages=messages)
+    return render_template('admin.html', users=users, messages=messages, Message=Message)
 
 
 if __name__ == '__main__':
