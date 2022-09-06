@@ -1,8 +1,5 @@
-from flask import Flask
+from main import app
 from flask_sqlalchemy import SQLAlchemy
-import os.path
-
-app = Flask(__name__)
 
 DB_NAME = "database"
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}.db' 
@@ -15,7 +12,7 @@ class User(db.Model):
     first_name = db.Column(db.String(80), index=True)
     last_name = db.Column(db.String(80), index=True)
     email = db.Column(db.String(80), index=True, unique=True)
-    phone_number = db.Column(db.String(80), index=True)
+    gender = db.Column(db.String(80), index=True)
     message = db.relationship('Message', backref='User')
 
     def __repr__(self):
@@ -30,11 +27,3 @@ class Message(db.Model):
 
     def __repr__(self):
         return "{} - {} - {}".format(self.message, self.user_email, self.date)
-
-from routes import *
-
-if __name__ == '__main__':
-    if not os.path.exists('database.db'):
-        db.create_all()
-    
-    app.run(debug=True, host="0.0.0.0", port=100)

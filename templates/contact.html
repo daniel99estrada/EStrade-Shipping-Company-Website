@@ -2,41 +2,32 @@
 {% block content%}
 <link rel="stylesheet" href="main.css">
 <h1>Contact</h1>
-<div class="container">
-    <div class="row justify-content-md-center">
-        <form method="POST">
-            <section class="name">
-                <label for="firstName">First name</label>
-                <br>
-                <input type="text" name="firstName" id="firstName" required>
-                <br>
-                <label for="lastName">Last name</label>
-                <br>
-                <input type="text" name="lastName" id="lastName" required>
-            </section>
-            <section class="email">
-                <label for="email">Email</label>
-                <br>
-                <input type="text" name="email" id="email" required>
-            </section>
-            <br>
-            <section class="name">
-                <label for="gender">Select your gender</label>
-                <br>
-                <input type="radio" name="gender" value="male">male
-                <input type="radio" name="gender" value="female">female
-                <input type="radio" name="gender" value="other">other
-            </section>
-            <br>
-            <section class="message">
-                <label for="message">Send a message</label>
-                <br>
-                <textarea id="message" name="message" rows="5" cols="25"></textarea>
-            </section>
-            <section class="submission">
-                <input type="submit" value="Submit">
-            </section>
-        </form>
-    </div>
+<div class="container mt-5">
+    <h1>Contact Me!</h1>
+    <form class="row g-3" method="POST">
+      <div class="col-md-6">
+        <label for="firstName" class="form-label">First Name</label>
+        <input type="text" class="form-control" id="firstName" name="firstName" required>
+      </div>
+      <div class="col-md-6">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="lastName" name="lastName" required>
+      </div>
+      <div class="col-md-8">
+        <label for="email" class="form-label">E-mail</label>
+        <input type="email" class="form-control" id="email" name= "email" required>
+      </div>
+      <div class="col-md-4">
+        <label for="phoneNumber" class="form-label">Phone Number</label>
+        <input type="text" class="form-control" id="phoneNumber" name= "phoneNumber" placeholder="+1 (415) 867-5309">
+      </div>
+      <div class="col-md-12">
+        <label for="message" class="form-label">Send us an inquiry</label>
+        <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
+      </div>
+      <div class="col-md-12">
+        <button type="submit" class="btn btn-primary" value="Submit">Submit</button>
+      </div>
+    </form>
 </div>
 {% endblock %}
