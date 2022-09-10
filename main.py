@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, UserMixin
 import os.path
 
 app = Flask(__name__)
@@ -30,6 +31,11 @@ class Message(db.Model):
 
     def __repr__(self):
         return "{} - {} - {}".format(self.message, self.user_email, self.date)
+
+class Admins(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(80), index=True)
+    
 
 from routes import *
 

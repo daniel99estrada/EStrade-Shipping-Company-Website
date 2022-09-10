@@ -1,0 +1,45 @@
+{% extends "base.html" %} {% block title %}Services{% endblock %} 
+{% block content%}
+      <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+          <h1 class="display-5 fw-bold">Servicios Empresariales:</h1>
+          <p class="col-md-8 fs-4">ES TRADE actúa como no solo como un agente de compras internacionales, sino también como un asesor de estas.</p>
+        </div>
+      </div>
+      <div class="row align-items-md-stretch">
+        <div class="col-md-6">
+          <div class="h-100 p-5 text-bg-dark rounded-3">
+            <h2>Industrias y Áreas Atendidas:</h2>
+            <ul>
+                <li>Construcción</li>
+                <li>Agroindustria</li>
+                <li>Procesos de Transformación y Control</li>
+                <li>Redes de Comunicación e Informática</li>
+                <li>Alimentación</li>
+                <li>Salud</li>
+            </ul>
+            <form action="{{ url_for('contact') }}">
+                <input class="btn btn-outline-light" type="submit" value="Contact us" />
+            </form>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="h-100 p-5 bg-light border rounded-3">
+            <h2>Servicios:</h2>
+            <ul>
+                <li>La búsqueda de los mejores equipos/productos según los requerimientos técnicos.</li>
+                <li>Las mejores cotizaciones con los mejores precios.</li>
+                <li>Compra directa de los equipos/productos.</li>
+                <li>Transporte de los equipos/productos.</li>
+                <li>Seguimiento personalizado de llegada del equipo/producto.</li>
+            </ul>
+            <form action="{{ url_for('about') }}">
+                <input class="btn btn-outline-dark" type="submit" value="About us" />
+            </form>
+        </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+{% endblock %}

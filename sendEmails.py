@@ -1,4 +1,4 @@
-def send_email(email):
+def send_email(email, message):
     import smtplib
 
     gmail_user = 'sunnytali001@gmail.com'
@@ -7,7 +7,7 @@ def send_email(email):
     sent_from = gmail_user
     to = [email]
     subject = 'Welcome to the site.'
-    body = 'consectetur adipiscing elit'
+    body = message
 
     email_text = """\
     From: %s
