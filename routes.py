@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy, inspect
-from flask_admin import Admin
 import os.path
 from datetime import date
 from sendEmails import send_email
