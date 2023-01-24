@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy, inspect
+from flask_sqlalchemy import SQLAlchemy
 import os.path
 from datetime import date
 from sendEmails import send_email
@@ -18,8 +18,7 @@ def contact():
         email = request.form.get('email')
         user_exists = False
         
-        inspector = inspect(db.engine)
-        if (inspector.has_table("user")):
+        if "user" in db.engine.table_names():
             user_exists = User.query.filter_by(email=email).first()
 
         if not user_exists:
