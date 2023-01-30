@@ -54,10 +54,17 @@ def admin():
     messages = Message.query.all()
     return render_template('admin.html', users=users, messages=messages)
 
+@app.route("/signup")
+def signup():
+    return render_template("signup.html")
 
 @app.route("/about")
 def about():
     return render_template("about.html")
+
+@app.route("/faq")
+def faq():
+    return render_template("faq.html")
 
 @app.route("/services")
 def services():
